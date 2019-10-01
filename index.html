@@ -7,24 +7,60 @@
   <title>Document</title>
 </head>
 <body>
-    <script src="vue.js"></script>
+  <script src="vue.js"></script>
 
-    <div id="app">
-      <p>{{message}}</p>
-      <button v-on:click="reverseMessage">メッセージ反転</button>
-    </div>
-    <script>
-      new Vue({
-	      el: '#app',
-        data: {
-  	      message: 'HelloWorld!'
-        },
-        methods: {
-  	      reverseMessage: function() {
-    	      this.message = this.message.split('').reverse().join('')
-          }
+  <div id="app">
+    <p v-once>{{message}}</p>
+    <p>{{ number + 5}}</p>
+    <p>{{ ok ? 'YES' : 'NO'}}</p>
+    <p>{{ sayHi() }}</p>
+    <button v-on:click="reverseMessage">メッセージ反転</button>
+    <p v-text="message"></p>
+    <div>{{ html }}</div>
+    <div v-html="html"></div>
+
+    <!-- v-bindの使い方 -->
+    <a v-bind:href="url">Google</a>
+    <a :href="url">Google</a>
+    <a :[attribute]="url">Google</a>
+    <a v-bind="{ href:urltwitter, id:number }">Twitter</a>
+    <a v-bind="twitterObject">Twitter</a>
+    <!-- v-onの使い方 -->
+    <p>現在{{ number }}回クリックされています</p>
+    <button v-on:click="countUp">カウントアップ</button>
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        message: 'HelloWorld!',
+        number: 3,
+        ok: true,
+        // v-bindの使い方用
+        html: '<h1>h1です</h1>',
+        url: 'https://google.com',
+        attribute: 'href',
+        urltwitter: 'https://twitter.com',
+        number: 0,
+        twitterObject: {
+          href: 'https://twitter.com',
+          id: 31
         }
-      })
-    </script>
+      },
+      methods: {
+        reverseMessage: function() {
+        this.message = this.message.split('').reverse().join('')
+        },
+        sayHi: function() {
+          this.message = 'Hello VueJS'
+          return 'Hi';
+        },
+        // v-onの使い方用
+        countUp: function() {
+          this.number += 1
+        }
+      }
+    })
+  </script>
 </body>
 </html>
