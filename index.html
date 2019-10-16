@@ -27,7 +27,26 @@
     <a v-bind="twitterObject">Twitter</a>
     <!-- v-onの使い方 -->
     <p>現在{{ number }}回クリックされています</p>
-    <button v-on:click="countUp">カウントアップ</button>
+    <button v-on:click="countUp(3)">カウントアップ</button>
+    <p>X:{{x}},Y:{{y}}</p>
+    <p v-on:mousemove="changeMousePosition($event, 10)">マウスを載せてください
+    <!-- イベント修飾子について -->
+    <span v-on:mousemove.stop>反応しないでください</span></p>
+    <a v-on:click.prevent.stop="noEvent" href="https://google.com">Google</a>
+    <!-- キー修飾子について -->
+    <input type="text" v-on:keyup.enter.space="myAlert">
+    <button v-on:[event]="countUp(5)">カウントアップ</button>
+    <!-- v-onの省略方法 -->
+    <button @[event]="countUp(5)">カウントアップ</button>
+    <button @click="countUp(5)">カウントアップ</button>
+    <!-- v-modelの使い方 -->
+    <input type="text" v-model="message2">
+    <h1>{{message2}}</h1>
+    <!-- computedプロパティの使い方 -->
+    <p>{{counter}}</p>
+    <button @click="counter += 1">+1</button>
+    <p>{{lessThanThreeComputed}}</p><!--この場合こっちを使うべき-->
+    <p>{{lessThanThreeMethod()}}</p>
   </div>
   <script>
     new Vue({
@@ -45,7 +64,12 @@
         twitterObject: {
           href: 'https://twitter.com',
           id: 31
-        }
+        },
+        x: 0,
+        y: 0,
+        event: 'click',
+        message2: 'こんにちは',
+        counter: 0
       },
       methods: {
         reverseMessage: function() {
@@ -56,8 +80,31 @@
           return 'Hi';
         },
         // v-onの使い方用
-        countUp: function() {
-          this.number += 1
+        countUp: function(times) {
+          this.number += 1 * times
+        },
+        changeMousePosition: function(event, divideNumber) {
+          this.x = event.clientX / divideNumber;
+          this.y = event.clientY / divideNumber;
+        },
+        myAlert() {
+          alert("アラート");
+        },
+        lessThanThreeMethod: function() {
+          return this.counter > 3 ? '3より上' : '3より下'
+        }
+      },
+      computed: {
+        lessThanThreeComputed: function() {
+          return this.counter > 3 ? '3より上' : '3より下'
+        }
+      },
+      watch: {
+        counter: function() {
+          var vm = this;
+          setTimeout(function(){
+            vm.counter = 0
+          }, 3000)
         }
       }
     })
