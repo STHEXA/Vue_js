@@ -1,0 +1,40 @@
+<!-- 48. key属性をつける必要性を学び、予期せぬバグを起こさないv-forを作る -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="48~.css">
+  <title>Document</title>
+</head>
+<body>
+  <script src="vue.js"></script>
+  
+  <div id="app">
+  
+    <ul>
+      <div v-for="fruit in fruits" :key="fruit">
+        <li>{{fruit}}</li>
+        <input type="text">
+      </div>
+    </ul>
+    <button @click="remove">先頭を削除</button>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        fruits: ['りんご','バナナ','ぶどう']
+      },
+      methods: {
+        remove: function() {
+          this.fruits.shift()
+        }
+      }
+    })
+  </script>
+
+</body>
+</html>

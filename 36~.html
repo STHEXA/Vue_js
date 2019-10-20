@@ -1,0 +1,86 @@
+<!-- v-ifディレクティブを使って、条件に応じて描画する処理を書く -->
+<!-- 37. v-elseを使って、v-ifがfalseの場合の処理を書く -->
+<!-- 38. v-else-ifを使って、複雑な条件式を作る -->
+<!-- 39. templateタグを使用して、不必要な要素を加えずにv-ifを複数の要素に適応させる -->
+<!-- 40. v-showを使って、頻繁に何かを切り替える処理のパフォーマンスを高める -->
+<!-- v-ifとv-showの違い
+v-ifはfalseの場合,要素ごと削除する。
+v-showはfalseの場合,要素に対して、display:noneにすることで
+要素を非表示にする。
+頻繁に表示を切り替える場合はv-show,そうでなければv-ifを使う -->
+<!-- 41. v-forディレクティブを使用して、配列に基づいてリストを描画する -->
+<!-- 42. ２つ目の引数に配列のインデックスを取ってv-forを使用する -->
+<!-- 43. オブジェクトに対してv-forディレクティブを使用する -->
+<!-- 44. オブジェクトのv-forには、第２引数と第３引数にキーとインデックスを取る -->
+<!-- 45. templateタグを使用して、不必要な要素を加えずにv-forを複数の要素に適応させる -->
+<!-- 46. n in 10 のように、整数値に対してv-forを適用する -->
+<!-- 47. inの代わりにofを使用してJavaScriptのイテレータ構文に近い書き方をする -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="36~.css">
+  <title>Document</title>
+</head>
+<body>
+  <script src="vue.js"></script>
+  
+  <div id="app">
+    <p v-if="ok">OK!</p>
+    <p v-else-if="maybeOK">maybe OK!</p>
+    <p v-else>Not OK...</p>
+
+    <template v-if="ok">
+      <p>Hello</p>
+      <p>Good Bye</p>
+      <p>おはよう</p>
+    </template>
+    <button @click="ok = !ok">ボタン</button>
+
+    <ul>
+      <li v-for="fruit in fruits">{{fruit}}</li>
+      <li v-for="(fruit, index) in fruits">({{index}}){{fruit}}</li>
+    </ul>
+
+    <ul>
+      <li v-for="value in object">{{value}}</li>
+      <li v-for="(value, key, index) in object">{{index}}{{key}}-{{value}}</li>
+    </ul>
+
+    <ul>
+      <template v-for="fruit in fruits">
+        <li>{{fruit}}</li>
+        <hr>
+      </template>
+    </ul>
+
+    <ul>
+      <li v-for="n in 10">{{n}}</li>
+    </ul>
+
+    <ul>
+      <li v-for="n of 10">{{n}}</li>
+    </ul>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        ok: true,
+        maybeOK: true,
+        fruits: ['りんご','バナナ','ぶどう'],
+        object: {
+          firstName: '太郎',
+          lastName: '田中',
+          age: 21
+        }
+      }
+    })
+  </script>
+
+</body>
+</html>
