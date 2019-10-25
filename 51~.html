@@ -1,3 +1,6 @@
+<!-- 52. 外側からVue インスタンスにアクセスする方法 -->
+<!-- 53. リアクティブシステム(getter、setter、Watcher)がどのように動いているかを確認し、プロパティを後から追加できないことを理解する -->
+<!-- 54. Vueインスタンスプロパティの$dataの紹介 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,26 +13,64 @@
 <body>
   <script src="vue.js"></script>
   
-  <div id="app1">
+  <!-- <div id="app1">
     <p>{{message}}</p>
   </div>
   <div id="app2">
     <p>{{message}}</p>
+    <button @click="changeMessage1">インスタンス１のMessageを変更</button>
+  </div> -->
+
+  <div id="app">
+    <p>{{message}}</p>
+    <p>{{name}}</p>
+    <button @click="name = 'ボタンから変更'">変更</button>
   </div>
 
   <script>
-    new Vue({
-      el: '#app1',
-      data: {
-        message: 'インスタンス１'
-      }
+    // var vm1 = new Vue({
+    //   el: '#app1',
+    //   data: {
+    //     message: 'インスタンス１'
+    //   }
+    // })
+
+    // var vm2 = new Vue({
+    //   el: '#app2',
+    //   data: {
+    //     message: 'インスタンス２'
+    //   },
+    //   methods: {
+    //     changeMessage1: function() {
+    //       vm1.message = 'インスタンス2から変更しました。'
+    //     }
+    //   }
+    // })
+
+    // var vm = new Vue({
+    //   el: '#app',
+    //   data: {
+    //     message: 'こんにちは',
+    //     name: 'よしぴー'
+    //   }
+    // })
+
+    // console.log(vm.$data);
+
+    var data = {
+      message: 'こんにちは',
+      name: 'よしぴー'
+    }
+
+
+    var vm = new Vue({
+      el: '#app',
+      data: data
     })
-    new Vue({
-      el: '#app2',
-      data: {
-        message: 'インスタンス２'
-      }
-    })
+
+    console.log(data === vm.$data);
+
+
   </script>
 
 </body>
