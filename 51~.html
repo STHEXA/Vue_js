@@ -1,3 +1,12 @@
+<!-- 52. 外側からVue インスタンスにアクセスする方法 -->
+<!-- 53. リアクティブシステム(getter、setter、Watcher)がどのように動いているかを確認し、プロパティを後から追加できないことを理解する -->
+<!-- 54. Vueインスタンスプロパティの$dataの紹介 -->
+<!-- 55. 内側からVueインスタンスのプロパティやメソッドにアクセスする -->
+<!-- 57. $mountメソッドを使用して、elプロパティの代わりにする -->
+<!-- 58. templateプロパティを使って、文字列のみでテンプレートを書く -->
+<!-- 59. render(描画)関数を使用して、仮想ノードを作ってDOMの描画を行う -->
+<!-- 63. ライフサイクルフックのタイミングを実際にコードで確かめる -->
+<!-- 64. コンポーネントを使用して、同じようなインスタンスを使い回す -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,26 +19,183 @@
 <body>
   <script src="vue.js"></script>
   
-  <div id="app1">
+  <!-- <div id="app1">
     <p>{{message}}</p>
   </div>
   <div id="app2">
     <p>{{message}}</p>
+    <button @click="changeMessage1">インスタンス１のMessageを変更</button>
+  </div> -->
+
+  <div id="app">
+    <p>{{message}}</p>
+    <p>{{name}}</p>
+    <p>{{myData}}</p>
+    <button @click="name = 'ボタンから変更'">変更</button>
+  </div>
+
+  <div id="app2"></div>
+  <div id="app3"></div>
+  <div id="app4">
+    <h1>こんにちは、{{name}}</h1>
+    <button @click="name = '太郎さん'">名前を変更</button>
+    <button @click="destroy">インスタンスを破壊</button>
+    <Hello></Hello>
+    <Hello></Hello>
   </div>
 
   <script>
-    new Vue({
-      el: '#app1',
-      data: {
-        message: 'インスタンス１'
-      }
+    // var vm1 = new Vue({
+    //   el: '#app1',
+    //   data: {
+    //     message: 'インスタンス１'
+    //   }
+    // })
+
+    // var vm2 = new Vue({
+    //   el: '#app2',
+    //   data: {
+    //     message: 'インスタンス２'
+    //   },
+    //   methods: {
+    //     changeMessage1: function() {
+    //       vm1.message = 'インスタンス2から変更しました。'
+    //     }
+    //   }
+    // })
+
+    // var vm = new Vue({
+    //   el: '#app',
+    //   data: {
+    //     message: 'こんにちは',
+    //     name: 'よしぴー'
+    //   }
+    // })
+
+    // console.log(vm.$data);
+
+    // var data = {
+    //   message: 'こんにちは',
+    //   name: 'よしぴー'
+    // }
+
+
+    // var vm = new Vue({
+    //   el: '#app',
+    //   data: data
+    // })
+
+    // console.log(data === vm.$data);
+
+    // 55
+    // var data = {
+    //   message: 'こんにちは',
+    //   name: 'よしぴー'
+    // }
+
+
+    // var vm = new Vue({
+    //   el: '#app',
+    //   data: data,
+    //   computed: {
+    //     myData: function() {
+    //       return this.$data;
+    //     }
+    //   }
+    // })
+
+    // console.log(data === vm.$data);
+
+    // 57
+    // var data = {
+    //   message: 'こんにちは',
+    //   name: 'よしぴー'
+    // }
+
+
+    // var vm = new Vue({
+    //   data: data,
+    //   computed: {
+    //     myData: function() {
+    //       return this.$data;
+    //     }
+    //   }
+    // })
+
+    // vm.$mount('#app')
+
+    // 58
+    // new Vue({
+    //   data: {
+    //     name: 'よしぴー'
+    //   },
+    //   template: '<h1>こんにちは,{{name}}</h1>'
+    // }).$mount('#app2')
+
+    // 59
+    // new Vue({
+    //   data: {
+    //     name: 'よしぴー'
+    //   },
+    //   render: function(createElement){
+    //     console.log(createElement('h1', 'こんにちは' + this.name));
+    //     return createElement('h1', 'こんにちは' + this.name);
+    //   },
+    // }).$mount('#app3')
+
+    // var dir = document.createElement('div');
+    // console.log(dir)
+    // console.log(document)
+    // console.dir(document)
+
+    // 64
+    Vue.component('Hello', {
+      template: '<p>こんにちは</p>'
     })
     new Vue({
-      el: '#app2',
+      el: '',
+      template: '<p>こんにちは</p>'
+    })
+
+    //63
+    new Vue({
+      el: '#app4',
       data: {
-        message: 'インスタンス２'
+        name: 'よしぴー'
+      },
+      beforeCreate: function() {
+        console.log('beforeCreate');
+      },
+      created: function() {
+        console.log('created');
+      },
+      beforeMount: function() {
+        console.log('beforeMount');
+      },
+      mounted: function() {
+        console.log('mounted');
+      },
+      beforeUpdate: function() {
+        console.log('beforeUpdate');
+      },
+      updated: function() {
+        console.log('updated');
+      },
+      beforeDestroy: function() {
+        console.log('beforeDestroy');
+      },
+      destroyed: function() {
+        console.log('destroyed');
+      },
+      methods: {
+        destroy: function() {
+          this.$destroy()
+        }
       }
     })
+
+    
+
   </script>
 
 </body>
